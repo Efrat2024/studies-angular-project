@@ -2,12 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { StudentsListComponent } from './students-list/students-list.component';
+import { StudentDetailsComponent } from './student-details/student-details.component';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule,StudentsListComponent],
+  imports: [RouterOutlet ,  CommonModule,StudentsListComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'efrat-studies'

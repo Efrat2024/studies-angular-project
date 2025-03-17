@@ -1,13 +1,27 @@
 <!-- <p>students-list works!</p> -->
-
-@for (student of studendsList; track student) {
-        <div class="student-container">
-            <div>{{ student.id }}  :  {{student.firstName}}</div>
-            <div>
-                <button 
-                (click)="deleteStudent(student.id)">delete student </button>
+<ul class="list-group">
+    @for (student of studendsList; track student) {
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-1">{{ student.id }}  :  {{student.firstName}}</div>
+                <div class="col-2">
+                    <button    class="btn btn-success" (click)="deleteStudent(student.id)">delete student </button>
+                </div>
+                <div  class="col-3">
+                    <button  class="btn btn-success"
+                    (click)="editStudent(student)">edit student </button>
+                </div>
             </div>
-        </div>
+        </li>
+        
     } @empty {
     <li>There are no items.</li>
     }
+</ul>
+<div *ngIf="isEditing">
+    <student-details *ngIf="isEditing" [editingStudent]="editingStudent" (closeOutput)="onClickClose($event)"></student-details>
+</div>
+
+<button  class="btn btn-success"
+(click)="addStudent()" >edit student </button>
+
