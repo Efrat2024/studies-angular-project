@@ -1,0 +1,32 @@
+<div  class="modal show" tabindex="-1" role="dialog" style="display:block;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Student</h5>
+                <span (click)="closeModal(false)" class="close" aria-label="Close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h1>{{ editingStudent.lastName }}</h1>
+                <form>
+                    <div class="form-group">
+                        <label for="firstName">First Name:</label>
+                        <input id="firstName" [(ngModel)]="editingStudent.firstName" name="firstName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name:</label>
+                        <input id="lastName" [(ngModel)]="editingStudent.lastName" name="lastName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input id="phone" [(ngModel)]="editingStudent.phone" name="phone" class="form-control" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" (click)="closeModal(true)">Save</button>
+                <button class="btn btn-secondary" (click)="closeModal(false)">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<h1>{{editingStudent.firstName}}</h1>

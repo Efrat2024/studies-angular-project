@@ -6,6 +6,7 @@ export class Student {
     address: string; 
     averageMarks: number;
     livingDate: Date;
+    active:boolean;
 
     constructor(
         id: number = 1, // Default value
@@ -14,7 +15,8 @@ export class Student {
         phone: number  = -1,
         address: string = '',
         averageMarks: number = 0,
-        livingDate: Date = new Date()
+        livingDate: Date = new Date(),
+        active:boolean=false
     ) {
         this.id = id;
         this.firstName = firstName;
@@ -23,5 +25,6 @@ export class Student {
         this.address = address; 
         this.averageMarks = averageMarks;
         this.livingDate = livingDate; // Use passed in date
+        this.active=active
     }
 }

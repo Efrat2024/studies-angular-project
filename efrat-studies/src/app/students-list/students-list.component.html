@@ -1,13 +1,18 @@
 <!-- <p>students-list works!</p> -->
+ <div class="/student-container">
 <ul class="list-group">
     @for (student of studendsList; track student) {
-        <li class="list-group-item">
+        <li class="list-group-item"   [ngClass]="{'active': editingStudent && editingStudent.id === student.id, 'list-group-item-success': student.averageMarks>90}">
             <div class="row">
-                <div class="col-1">{{ student.id }}  :  {{student.firstName}}</div>
-                <div class="col-2">
+                <div class="col-1"> {{student.id}}</div>
+                <div class="col-2"> {{student.firstName}}</div>
+                <div class="col-3">{{student.lastName}}</div>
+                <div class="col-4">{{ student.averageMarks }} </div>
+                
+                <div class="col-5">
                     <button    class="btn btn-success" (click)="deleteStudent(student.id)">delete student </button>
                 </div>
-                <div  class="col-3">
+                <div  class="col-6">
                     <button  class="btn btn-success"
                     (click)="editStudent(student)">edit student </button>
                 </div>
@@ -23,5 +28,6 @@
 </div>
 
 <button  class="btn btn-success"
-(click)="addStudent()" >edit student </button>
+(click)="addStudent()" >add student </button>
 
+</div>

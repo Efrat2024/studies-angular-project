@@ -14,7 +14,7 @@ import { StudentDetailsComponent } from '../student-details/student-details.comp
 export class StudentsListComponent {
 studendsList :Student[]=[];
 isEditing:boolean=false;
-editingStudent: Student=new Student(); 
+editingStudent: Student=new Student(this.studendsList.length+1); 
 
 ngOnInit(){
   this.addStudents()
@@ -23,13 +23,13 @@ closeModal() {
   this.isEditing = false; // Close the modal
 }
 addStudent(){
-  this.editingStudent=new Student();
+  this.editingStudent=new Student(this.studendsList.length+1);
   this.isEditing=true;
 }
 addStudents(){
-  this.studendsList.push(new Student(1, "stud 1", "stud 1 family", 111,"dddd",90, new Date()));
-  this.studendsList.push(new Student(2, "stud 2", "stud 2 family", 222,"dddd",90, new Date()));
-  this.studendsList.push(new Student(3, "stud 3", "stud 3 family", 333,"dddd",90, new Date()));
+  this.studendsList.push(new Student(1, "stud 1", "stud 1 family", 111,"dddd",100, new Date(), true));
+  this.studendsList.push(new Student(2, "stud 2", "stud 2 family", 222,"dddd",50, new Date(), true));
+  this.studendsList.push(new Student(3, "stud 3", "stud 3 family", 333,"dddd",90, new Date(), false));
 }
 
 editStudent(student: Student) {
@@ -38,7 +38,6 @@ editStudent(student: Student) {
   this.isEditing=true; // Clone the student object for editing
 }
 onClickClose(isSave:boolean){
-  console.log("hhhhh0", isSave);
     if(isSave){
       this.saveStudent()
   }
@@ -51,6 +50,9 @@ onClickClose(isSave:boolean){
     const index = this.studendsList.findIndex(student => student.id === this.editingStudent.id);
     if (index !== -1) {
         this.studendsList[index] = { ...this.editingStudent }; // Update the student
+    }
+    else{
+      this.studendsList.push(this.editingStudent)
     }
   }
 deleteStudent(studentId: number) {
