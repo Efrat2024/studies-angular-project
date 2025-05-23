@@ -17,7 +17,11 @@ studendsList :Student[]=[];
 isEditing:boolean=false;
 editingStudent: Student=new Student(0); 
 
-constructor(private studentService: StudentService) {}
+public studentService: StudentService;
+
+constructor(studentService: StudentService) {
+  this.studentService = studentService;
+}
 
 ngOnInit(){
   this.studentService.getStudentsWithDelay().then((students) => {

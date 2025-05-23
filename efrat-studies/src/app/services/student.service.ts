@@ -10,14 +10,14 @@ export class StudentService {
     new Student(1, "stud 1", "stud 1 family", 111, "Job 1", 100, new Date(), true, [
       { startDate: new Date('2023-01-10'), days: 2 },
       { startDate: new Date('2023-02-15'), days: 3 }
-    ], []),
+    ], [85, 90, 78]),
     new Student(2, "stud 2", "stud 2 family", 222, "Job 2", 50, new Date(), true, [
       { startDate: new Date('2023-03-01'), days: 1 }
-    ], []),
+    ], [88, 92, 80]),
     new Student(3, "stud 3", "stud 3 family", 333, "Job 3", 90, new Date(), false, [
       { startDate: new Date('2023-04-20'), days: 4 },
       { startDate: new Date('2023-05-05'), days: 2 }
-    ], []),
+    ], [75, 85, 95])
   ];
 
   getStudents(): Student[] {
@@ -34,7 +34,7 @@ export class StudentService {
 
   getStudentAverageById(studentId: number): number {
     const student = this.students.find(s => s.id === studentId);
-    if (!student || !student.grades || student.grades.length === 0) {
+    if (!student || student.grades.length === 0) {
       return 0;
     }
     const total = student.grades.reduce((sum, grade) => sum + grade, 0);
