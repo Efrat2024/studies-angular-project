@@ -1,6 +1,14 @@
-.student-container{
-    display: flex;
-    flex-direction: row;
-    gap: 3rem;
-    background-color: aquamarine;
+// .student-container{
+//     display: flex;
+//     flex-direction: row;
+//     gap: 3rem;
+//     background-color: aquamarine;
+// }
+.student-container .row > div {
+    padding: 10px; /* Adjust the padding as needed */
+}
+
+.student-container .list-group-item {
+    display: flex; /* Use flexbox for better control */
+    justify-content: space-between; /* Space between columns */
 }

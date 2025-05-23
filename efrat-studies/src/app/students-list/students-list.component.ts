@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { Student } from '../../models/Student.model';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { StudentDetailsComponent } from '../student-details/student-details.component';
+import { StudentService } from '../services/student.service';
+import { Student } from '../models/Student.model';
 
 @Component({
   selector: 'students-list',
@@ -11,29 +12,38 @@ import { StudentDetailsComponent } from '../student-details/student-details.comp
   styleUrl: './students-list.component.scss'
 })
 
-export class StudentsListComponent {
+export class StudentsListComponent implements OnInit {
 studendsList :Student[]=[];
 isEditing:boolean=false;
-editingStudent: Student=new Student(this.studendsList.length+1); 
+editingStudent: Student=new Student(0); 
+
+constructor(private studentService: StudentService) {}
 
 ngOnInit(){
-  this.addStudents()
+  this.studentService.getStudentsWithDelay().then((students) => {
+    this.studendsList = students;
+  });
 }
+
+loadStudents() {
+  this.studendsList = this.studentService.getStudents();
+}
+
 closeModal() {
   this.isEditing = false; // Close the modal
 }
 addStudent(){
-  this.editingStudent=new Student(this.studendsList.length+1);
-  this.isEditing=true;
-}
-addStudents(){
-  this.studendsList.push(new Student(1, "stud 1", "stud 1 family", 111,"dddd",100, new Date(), true));
-  this.studendsList.push(new Student(2, "stud 2", "stud 2 family", 222,"dddd",50, new Date(), true));
-  this.studendsList.push(new Student(3, "stud 3", "stud 3 family", 333,"dddd",90, new Date(), false));
-}
+  const maxId = this.studendsList.length > 0 
+    ? Math.max(...this.studendsList.map(student => student.id)) 
+    : 0;
+  this.editingStudent = new Student(maxId + 1);
+  this.isEditing = true;
 
+}
+trackByFn(index: number, student: Student): number {
+  return student.id;
+}
 editStudent(student: Student) {
-  console.log("ffffffffffffffffff", student);
   this.editingStudent=student
   this.isEditing=true; // Clone the student object for editing
 }
@@ -41,20 +51,24 @@ onClickClose(isSave:boolean){
     if(isSave){
       this.saveStudent()
   }
-  else{
-
-  }
   this.isEditing=false;
 }
   saveStudent() {
     const index = this.studendsList.findIndex(student => student.id === this.editingStudent.id);
     if (index !== -1) {
+        console.log(this.editingStudent);
         this.studendsList[index] = { ...this.editingStudent }; // Update the student
+    } else {
+        this.studendsList.push(this.editingStudent);
     }
-    else{
-      this.studendsList.push(this.editingStudent)
-    }
-  }
+
+    // Recalculate and update absence days directly in the editingStudent object
+}
+
+getTotalAbsences(student: Student): number {
+    return student.absences?.reduce((total, absence) => total + absence.days, 0) || 0;
+}
+
 deleteStudent(studentId: number) {
   var index = this.studendsList.findIndex((student) => student.id === studentId);
   

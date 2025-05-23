@@ -1,4 +1,4 @@
-<div  class="modal show" tabindex="-1" role="dialog" style="display:block;">
+<div class="modal show" tabindex="-1" role="dialog" style="display:block;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -7,26 +7,86 @@
             </div>
             <div class="modal-body">
                 <h1>{{ editingStudent.lastName }}</h1>
-                <form>
+                <div class="alert alert-info">
+                    Total Absences: {{ getTotalAbsences(editingStudent) }} days
+                </div>
+                <form [formGroup]="form">
                     <div class="form-group">
                         <label for="firstName">First Name:</label>
-                        <input id="firstName" [(ngModel)]="editingStudent.firstName" name="firstName" class="form-control" />
+                        <input id="firstName" formControlName="firstName" class="form-control" />
+                        <div *ngIf="form.get('firstName')?.invalid && form.get('firstName')?.touched" class="text-danger">
+                            <small *ngIf="form.get('firstName')?.errors?.['required']">First Name is required.</small>
+                            <small *ngIf="form.get('firstName')?.errors?.['minlength']">Minimum 2 characters required.</small>
+                            <small *ngIf="form.get('firstName')?.errors?.['maxlength']">Maximum 50 characters allowed.</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="lastName">Last Name:</label>
-                        <input id="lastName" [(ngModel)]="editingStudent.lastName" name="lastName" class="form-control" />
+                        <input id="lastName" formControlName="lastName" class="form-control" />
+                        <div *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.touched" class="text-danger">
+                            <small *ngIf="form.get('lastName')?.errors?.['required']">Last Name is required.</small>
+                            <small *ngIf="form.get('lastName')?.errors?.['minlength']">Minimum 2 characters required.</small>
+                            <small *ngIf="form.get('lastName')?.errors?.['maxlength']">Maximum 50 characters allowed.</small>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone:</label>
-                        <input id="phone" [(ngModel)]="editingStudent.phone" name="phone" class="form-control" />
+                        <input id="phone" formControlName="phone" class="form-control" />
+                        <div *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched" class="text-danger">
+                            <small *ngIf="form.get('phone')?.errors?.['required']">Phone is required.</small>
+                            <small *ngIf="form.get('phone')?.errors?.['pattern']">Invalid phone number format.</small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="job">Job:</label>
+                        <select id="job" formControlName="job" class="form-control">
+                            <option *ngFor="let job of getJobEnum()" [value]="job">{{ job }}</option>
+                        </select>
+                        <div *ngIf="form.get('job')?.invalid && form.get('job')?.touched" class="text-danger">
+                            <small>Job is required.</small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Year:</label>
+                        <div *ngFor="let year of getYearsEnum()">
+                            <input 
+                                type="radio" 
+                                id="{{ year }}" 
+                                formControlName="year" 
+                                [value]="year" 
+                                class="form-check-input">
+                            <label for="{{ year }}" class="form-check-label">{{ year }}</label>
+                        </div>
+                        <div *ngIf="form.get('year')?.invalid && form.get('year')?.touched" class="text-danger">
+                            <small>Year is required.</small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="absenceDays">Absence Days:</label>
+                        <input id="absenceDays" formControlName="absenceDays" type="number" class="form-control" />
+                        <div *ngIf="form.get('absenceDays')?.invalid && form.get('absenceDays')?.touched" class="text-danger">
+                            <small *ngIf="form.get('absenceDays')?.errors?.['required']">Absence Days are required.</small>
+                            <small *ngIf="form.get('absenceDays')?.errors?.['min']">Minimum value is 1.</small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="absenceDate">Absence Start Date:</label>
+                        <input id="absenceDate" formControlName="absenceDate" type="date" class="form-control" />
+                        <div *ngIf="form.get('absenceDate')?.invalid && form.get('absenceDate')?.touched" class="text-danger">
+                            <small *ngIf="form.get('absenceDate')?.errors?.['required']">Absence Start Date is required.</small>
+                        </div>
                     </div>
                 </form>
+                <div *ngIf="successMessage" class="alert alert-success mt-3">
+                    {{ successMessage }}
+                </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" (click)="closeModal(true)">Save</button>
+                <button class="btn btn-success" [disabled]="form.invalid" (click)="closeModal(true)">Save</button>
                 <button class="btn btn-secondary" (click)="closeModal(false)">Close</button>
             </div>
         </div>
     </div>
 </div>
 <h1>{{editingStudent.firstName}}</h1>
+<p>Total Absences: {{ getTotalAbsences(editingStudent) }} days</p>

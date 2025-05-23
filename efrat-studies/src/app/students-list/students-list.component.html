@@ -1,33 +1,31 @@
-<!-- <p>students-list works!</p> -->
- <div class="/student-container">
-<ul class="list-group">
-    @for (student of studendsList; track student) {
-        <li class="list-group-item"   [ngClass]="{'active': editingStudent && editingStudent.id === student.id, 'list-group-item-success': student.averageMarks>90}">
-            <div class="row">
-                <div class="col-1"> {{student.id}}</div>
-                <div class="col-2"> {{student.firstName}}</div>
-                <div class="col-3">{{student.lastName}}</div>
-                <div class="col-4">{{ student.averageMarks }} </div>
-                
-                <div class="col-5">
-                    <button    class="btn btn-success" (click)="deleteStudent(student.id)">delete student </button>
-                </div>
-                <div  class="col-6">
-                    <button  class="btn btn-success"
-                    (click)="editStudent(student)">edit student </button>
-                </div>
-            </div>
-        </li>
-        
-    } @empty {
-    <li>There are no items.</li>
-    }
-</ul>
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Phone</th>
+      <th>Job</th>
+      <th>Total Absences</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let student of studendsList; trackBy: trackByFn">
+      <td>{{ student.id }}</td>
+      <td>{{ student.firstName }}</td>
+      <td>{{ student.lastName }}</td>
+      <td>{{ student.phone }}</td>
+      <td>{{ student.job }}</td>
+      <td>{{ getTotalAbsences(student) }}</td>
+      <td>
+        <button class="btn btn-primary" (click)="editStudent(student)">Edit</button>
+        <button class="btn btn-danger" (click)="deleteStudent(student.id)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
 <div *ngIf="isEditing">
     <student-details *ngIf="isEditing" [editingStudent]="editingStudent" (closeOutput)="onClickClose($event)"></student-details>
 </div>
-
-<button  class="btn btn-success"
-(click)="addStudent()" >add student </button>
-
-</div>
+<button class="btn btn-success" (click)="addStudent()">Add Student</button>
